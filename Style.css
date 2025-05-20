@@ -1,101 +1,216 @@
 /* --- Global Resets & Base Styles --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: 'Roboto', sans-serif; line-height: 1.6;
-    background-color: #222831; color: #EEEEEE;
-    display: flex; flex-direction: column; min-height: 100vh;
-    -webkit-tap-highlight-color: transparent; /* Better touch experience */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.container { width: 90%; max-width: 1400px; margin: 0 auto; }
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #222831; /* Main dark background */
+    color: #EEEEEE; /* Light text for readability */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent; /* Improves touch experience on mobile */
+}
+.container {
+    width: 90%;
+    max-width: 1400px; /* Max width for larger screens */
+    margin: 0 auto;
+}
 
 /* --- Theme Variables --- */
 :root {
-    --accent-color: #007bff; /* Blue for "BlueSky" */
-    --accent-color-darker: #0056b3;
+    --accent-color: #007bff; /* Blue for "BlueSky" branding */
+    --accent-color-darker: #0056b3; /* Darker blue for hover states */
     --primary-bg: #222831;
-    --card-bg: #393E46;
-    --border-color: #4F555C;
+    --card-bg: #393E46; /* Background for sidebars, table wrapper, modal */
+    --border-color: #4F555C; /* Borders for elements */
     --text-light: #EEEEEE;
-    --text-muted: #cccccc;
-    --row-hover-bg: #4a5058;
-    --new-badge-bg: #e63946; /* Red for contrast */
-    --header-bg: #1a1e25;
-    --star-inactive: #555c66;
-    --star-active: #ffd700; /* Gold for stars */
+    --text-muted: #cccccc; /* Slightly dimmer text for less emphasis */
+    --row-hover-bg: #4a5058; /* Table row hover background */
+    --new-badge-bg: #e63946; /* Contrasting red for "NEW!" badge */
+    --header-bg: #1a1e25; /* Darker background for header */
+    --star-inactive: #555c66; /* Color for unselected stars */
+    --star-active: #ffd700; /* Gold for selected/hovered stars */
 }
 
 /* --- Header --- */
-header { background: var(--header-bg); padding: 1.5rem 0; text-align: center; border-bottom: 3px solid var(--accent-color); }
-header h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 0.3rem; }
+header {
+    background: var(--header-bg);
+    padding: 1.5rem 0;
+    text-align: center;
+    border-bottom: 3px solid var(--accent-color);
+}
+header #logo { /* Optional: If you add a logo image */
+    max-width: 100px;
+    margin-bottom: 0.5rem;
+    /* filter: brightness(0) invert(1); /* Uncomment if logo is dark to make it white */
+}
+header h1 {
+    font-size: 2.5rem; /* Responsive font size, adjust with media queries if needed */
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+}
 header h1 .accent-text { color: var(--accent-color); }
 header h1 .normal-text { color: var(--text-light); }
-header .subtitle { font-size: 1.1rem; font-weight: 300; color: var(--text-muted); }
+header .subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-muted);
+}
 
 /* --- Main Page Layout --- */
 .page-layout {
     display: grid;
     grid-template-columns: 1fr; /* Mobile first: single column */
-    gap: 20px;
-    padding-top: 20px; padding-bottom: 20px; flex-grow: 1;
+    gap: 20px; /* Gap between stacked sections on mobile */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex-grow: 1; /* Allows main content to fill available vertical space */
 }
-.main-sidebar, .main-content-area {
-    background: var(--card-bg); padding: 15px;
+.main-sidebar, .main-content-area { /* Common styling for all main sections */
+    background: var(--card-bg);
+    padding: 15px; /* Base padding, will increase for larger screens */
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color);
 }
-.main-sidebar h2, .right-sidebar .sidebar-section h2 {
-    margin-top: 0; margin-bottom: 15px; font-size: 1.3rem;
+.main-sidebar h2, .right-sidebar .sidebar-section h2 { /* Combined general h2 styling */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.3rem; /* Base font size for headings */
     color: var(--accent-color);
-    text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;
+    text-align: center; /* Centered by default for left sidebar */
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
-.left-sidebar, .right-sidebar { align-self: stretch; }
+.left-sidebar, .right-sidebar {
+    align-self: stretch; /* Make sidebars take full height of their grid cell */
+}
 
 /* Left Sidebar: Filters */
 .left-sidebar .filter-group { margin-bottom: 15px; }
-.left-sidebar .filter-group label { font-size: 0.85rem; display: block; margin-bottom: 5px; color: var(--text-muted); font-weight: 500;}
-.left-sidebar .filter-group select {
-    width: 100%; font-size: 0.85rem; padding: 8px; background-color: var(--primary-bg); color: var(--text-light);
-    border: 1px solid var(--border-color); border-radius: 5px; appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat; background-position: right 10px center; background-size: 1em;
+.left-sidebar .filter-group label {
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+    font-weight: 500;
 }
-.left-sidebar .filter-group select optgroup { font-weight: bold; background-color: var(--card-bg); color: var(--accent-color); }
-.left-sidebar .filter-group select option { background-color: var(--primary-bg); }
+.left-sidebar .filter-group select {
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 8px;
+    background-color: var(--primary-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    appearance: none; /* Remove default dropdown arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+}
+.left-sidebar .filter-group select optgroup {
+    font-weight: bold;
+    background-color: var(--card-bg); /* Different background for optgroup label */
+    color: var(--accent-color);
+}
+.left-sidebar .filter-group select option {
+    background-color: var(--primary-bg); /* Background for individual options */
+}
 .left-sidebar #reset-filters {
-    font-size: 0.9rem; padding: 8px 12px; background-color: var(--accent-color); color: white;
-    border: none; border-radius: 5px; cursor: pointer; width: 100%; text-transform: uppercase;
-    font-weight: 500; transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 .left-sidebar #reset-filters:hover { background-color: var(--accent-color-darker); }
 
 /* Main Content: Route List */
-.main-content-area { min-width: 0; }
+.main-content-area { min-width: 0; /* Important for flex/grid item shrinking */ }
 .table-wrapper {
-    width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    border: 1px solid var(--border-color); border-radius: 8px;
-    background: var(--card-bg);
+    width: 100%;
+    overflow-x: auto; /* Essential for table horizontal scroll on small screens */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    border: 1px solid var(--border-color); /* Can be removed if .main-content-area provides border */
+    border-radius: 8px; /* Match parent if needed */
+    background: var(--card-bg); /* Can be removed if .main-content-area provides background */
 }
-#route-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-#route-table th, #route-table td { padding: 8px 6px; white-space: nowrap; text-align: left; border-bottom: 1px solid var(--border-color); }
-#route-table th { background-color: #2c3138; color: var(--accent-color); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 1; }
-#route-table tbody tr:nth-child(even) { background-color: #343a42; }
+#route-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem; /* Smaller font for table data on mobile */
+}
+#route-table th, #route-table td {
+    padding: 8px 6px; /* Tighter padding for mobile */
+    white-space: nowrap; /* Prevent text wrapping in cells to maintain column structure */
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+#route-table th {
+    background-color: #2c3138; /* Slightly darker header for table */
+    color: var(--accent-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky; /* Make table headers sticky when scrolling vertically */
+    top: 0; /* Required for sticky */
+    z-index: 1; /* Ensure header stays above scrolling content */
+}
+#route-table tbody tr:nth-child(even) { background-color: #343a42; } /* Zebra striping */
 #route-table tbody tr:hover { background-color: var(--row-hover-bg); }
 #route-table td { color: var(--text-muted); }
-#route-table td:first-child { color: var(--text-light); font-weight: 500; }
-.hold-color-swatch-table { display: inline-block; width: 14px; height: 14px; border: 1px solid #5f6770; border-radius: 3px; margin-right: 6px; vertical-align: middle; box-shadow: 0 0 1px rgba(0,0,0,0.2) inset; }
+#route-table td:first-child { color: var(--text-light); font-weight: 500; } /* Emphasize first column */
+.hold-color-swatch-table {
+    display: inline-block; width: 14px; height: 14px;
+    border: 1px solid #5f6770; border-radius: 3px;
+    margin-right: 6px; vertical-align: middle;
+    box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+}
 #route-table th.status-header, #route-table td.status-cell { text-align: center; width: 80px; }
-.new-badge { background-color: var(--new-badge-bg); color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; display: inline-block; line-height: 1; }
-#no-routes-message { color: var(--text-muted); font-size: 1rem; }
-.feedback-button { padding: 4px 8px; font-size: 0.7rem; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+.new-badge {
+    background-color: var(--new-badge-bg); color: white;
+    padding: 3px 8px; border-radius: 10px;
+    font-size: 0.65rem; font-weight: bold; text-transform: uppercase;
+    display: inline-block; line-height: 1;
+}
+#no-routes-message { color: var(--text-muted); font-size: 1rem; text-align: center; }
+.feedback-button {
+    padding: 4px 8px; font-size: 0.7rem;
+    background-color: var(--accent-color); color: white;
+    border: none; border-radius: 4px; cursor: pointer;
+    transition: background-color 0.2s;
+}
 .feedback-button:hover { background-color: var(--accent-color-darker); }
 
-/* Right Sidebar: Utilities */
+/* Right Sidebar: Utilities (Challenges, Translator, etc.) */
 .right-sidebar { display: flex; flex-direction: column; gap: 20px; }
-.right-sidebar .sidebar-section { /* padding: 0; /* Sections get padding from main-sidebar */ }
-.right-sidebar .sidebar-section h2 { text-align: left; font-size: 1.2rem; margin-bottom: 8px; padding-bottom: 6px; }
+.right-sidebar .sidebar-section { /* Individual sections within the right sidebar */
+    /* padding: 0; /* Padding comes from .main-sidebar parent */
+}
+.right-sidebar .sidebar-section h2 { /* Titles for sections like "Weekly Challenges" */
+    text-align: left; /* Align section titles left */
+    font-size: 1.2rem; /* Slightly smaller for these sub-headings */
+    margin-bottom: 8px; padding-bottom: 6px;
+    /* border-bottom is already applied from .main-sidebar h2, so can remove if redundant */
+}
 .right-sidebar .sidebar-section p { font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted); }
 .right-sidebar .sidebar-section ul { list-style: none; padding-left: 0; }
-.right-sidebar .sidebar-section ul li { font-size: 0.8rem; padding: 5px 0; border-bottom: 1px dashed #4a5058; color: var(--text-muted); }
+.right-sidebar .sidebar-section ul li {
+    font-size: 0.8rem; padding: 5px 0;
+    border-bottom: 1px dashed #4a5058; color: var(--text-muted);
+}
 .right-sidebar .sidebar-section ul li:last-child { border-bottom: none; }
 
 /* Weekly Challenges Specifics */
@@ -108,57 +223,117 @@ header .subtitle { font-size: 1.1rem; font-weight: 300; color: var(--text-muted)
 #grade-translator-section .translator-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 #grade-translator-section .translator-group label { font-size: 0.8rem; display: block; margin-bottom: 3px; color: var(--text-muted); font-weight: 500;}
 #grade-translator-section .translator-group input[type="text"],
-#grade-translator-section .translator-group select { width:100%; font-size: 0.85rem; padding: 7px; background-color: var(--primary-bg); color: var(--text-light); border:1px solid var(--border-color); border-radius:5px;}
-#grade-translator-section #translate-grade-button { font-size: 0.85rem; padding: 7px 12px; background-color: var(--accent-color); color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+#grade-translator-section .translator-group select {
+    width:100%; font-size: 0.85rem; padding: 7px;
+    background-color: var(--primary-bg); color: var(--text-light);
+    border:1px solid var(--border-color); border-radius:5px;
+}
+#grade-translator-section #translate-grade-button {
+    font-size: 0.85rem; padding: 7px 12px; background-color: var(--accent-color); color: white;
+    border: none; border-radius: 5px; cursor: pointer; width: 100%;
+}
 #grade-translator-section #translate-grade-button:hover { background-color: var(--accent-color-darker); }
-#grade-translator-section .translation-result { margin-top: 8px; padding: 8px; font-size: 0.85rem; background-color: #2c3138; border-radius: 5px; border: 1px solid var(--border-color); }
+#grade-translator-section .translation-result {
+    margin-top: 8px; padding: 8px; font-size: 0.85rem;
+    background-color: #2c3138; border-radius: 5px; border: 1px solid var(--border-color);
+}
 #grade-translator-section .translation-result p { margin-bottom: 4px; font-size: 0.85rem; color: var(--text-light); }
 #grade-translator-section .translation-result p strong { color: var(--accent-color); min-width: 100px; display: inline-block; }
 
 /* Random Name Generator Specifics */
-#random-name-generator-section #generate-random-name-button { font-size: 0.85rem; padding: 7px 12px; margin-bottom: 8px; background-color: var(--accent-color); color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+#random-name-generator-section #generate-random-name-button {
+    font-size: 0.85rem; padding: 7px 12px; margin-bottom: 8px;
+    background-color: var(--accent-color); color: white;
+    border: none; border-radius: 5px; cursor: pointer; width: 100%;
+}
 #random-name-generator-section #generate-random-name-button:hover { background-color: var(--accent-color-darker); }
-.random-name-output { font-size: 1rem; padding: 8px; font-weight: 500; color: var(--text-light); text-align: center; background-color: #2c3138; border-radius: 4px; min-height: 2em; }
+.random-name-output {
+    font-size: 1rem; padding: 8px; font-weight: 500; color: var(--text-light);
+    text-align: center; background-color: #2c3138;
+    border-radius: 4px; min-height: 2em; /* Ensure space even when empty */
+}
 
 /* --- Footer --- */
-footer { background: var(--header-bg); text-align: center; padding: 1.2rem 0; margin-top: auto; border-top: 1px solid var(--border-color); grid-column: 1 / -1; }
+footer {
+    background: var(--header-bg); text-align: center;
+    padding: 1.2rem 0; margin-top: auto; /* Pushes footer to bottom */
+    border-top: 1px solid var(--border-color);
+    grid-column: 1 / -1; /* Ensure footer spans grid if main is still display:grid */
+}
 footer p { color: #aaaaaa; font-size: 0.85rem; margin-bottom: 5px; }
 footer p:last-child { margin-bottom: 0; }
 
 /* --- Modal Styles --- */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 10px; }
-.modal-content { background-color: var(--card-bg); color: var(--text-light); margin: auto; padding: 20px; border: 1px solid var(--border-color); width: 100%; max-width: 500px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
-.close-button { color: var(--text-muted); float: right; font-size: 28px; font-weight: bold; line-height: 1; }
-.close-button:hover, .close-button:focus { color: var(--accent-color); text-decoration: none; cursor: pointer; }
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; z-index: 1000; left: 0; top: 0;
+    width: 100%; height: 100%; overflow: auto; /* Enable scroll if content is too long */
+    background-color: rgba(0,0,0,0.6); /* Dim background */
+    align-items: center; justify-content: center; /* Center modal box */
+    padding: 10px; /* Padding for small screens so modal isn't edge-to-edge */
+}
+.modal-content {
+    background-color: var(--card-bg); color: var(--text-light);
+    margin: auto; /* Centering */
+    padding: 20px; /* Padding inside modal */
+    border: 1px solid var(--border-color);
+    width: 100%; /* Full width on small screens, constrained by max-width */
+    max-width: 500px; /* Max width for larger screens */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative; /* For positioning close button */
+}
+.close-button {
+    color: var(--text-muted);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1; /* Align X nicely */
+}
+.close-button:hover, .close-button:focus {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
 .modal-content h3 { color: var(--accent-color); margin-top: 0; margin-bottom: 15px; font-size: 1.2rem; }
 .modal .form-group { margin-bottom: 12px; }
 .modal .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: var(--text-muted); font-size: 0.9rem; }
-.modal .form-group input[type="text"], .modal .form-group textarea { width: 100%; padding: 8px; background-color: var(--primary-bg); color: var(--text-light); border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; }
+.modal .form-group input[type="text"], .modal .form-group textarea {
+    width: 100%; padding: 8px;
+    background-color: var(--primary-bg); color: var(--text-light);
+    border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem;
+}
 .modal .form-group textarea { resize: vertical; min-height: 60px; }
 .star-rating { display: flex; font-size: 1.6rem; cursor: pointer; }
 .star-rating .star { color: var(--star-inactive); margin-right: 5px; transition: color 0.2s; }
-.star-rating .star.selected, .star-rating .star:hover, .star-rating .star:hover ~ .star { color: var(--star-active); }
-.submit-feedback-button { background-color: var(--accent-color); color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.95rem; font-weight: 500; transition: background-color 0.3s ease; display: block; margin-top: 10px; width:100%; }
+.star-rating .star.selected, .star-rating .star:hover, .star-rating .star:hover ~ .star { color: var(--star-active); } /* Cascade hover */
+.submit-feedback-button {
+    background-color: var(--accent-color); color: white;
+    padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;
+    font-size: 0.95rem; font-weight: 500;
+    transition: background-color 0.3s ease;
+    display: block; margin-top: 10px; width:100%;
+}
 .submit-feedback-button:hover { background-color: var(--accent-color-darker); }
 
 /* --- Responsive Adjustments --- */
-/* Tablet and larger - 2 column layout for main filters and content (which includes right sidebar stacked) */
+
+/* Medium screens (tablets) - Introduce 2-column layout for main filters and content area */
 @media (min-width: 769px) {
     .page-layout {
-        grid-template-columns: minmax(260px, 1fr) 3fr; /* Filters | Main Area (Route List + Right Sidebar items stacked) */
-        gap: 25px;
+        /* Filters | Main Content Area (Route List + Right Sidebar items stacked within this second column) */
+        grid-template-columns: minmax(260px, 1fr) 3fr;
+        gap: 25px; /* Wider gap for larger screens */
     }
     .main-sidebar, .main-content-area { padding: 20px; } /* Restore some padding */
-    .right-sidebar { /* This will be a child of main-content-area if we want to stack it within the 2nd column or a direct child of page-layout if we want it separate*/
-        /* For this layout, right-sidebar is a direct child of page-layout and will stack under filters on tablet*/
-         /* So, we need to adjust if we intended right-sidebar to be within the second column of a 2-col layout */
-         /* Let's assume we still want 3 columns for desktop, and stack right sidebar under main content for tablet */
-         /* The current CSS will make right-sidebar a third column that wraps if not enough space. */
-         /* To stack right sidebar UNDER main-content-area for tablet: */
-        grid-column: 2 / 3; /* Put it in the second column */
-        margin-top: 25px; /* Space it from the route table if it's now below it */
+    .right-sidebar {
+        /* On tablet, the right sidebar is a direct child of page-layout and will flow naturally below the first two grid items */
+        /* Or, if you want it inside the second column with main-content-area, you'd nest it in HTML */
+        /* Assuming it's a direct child and stacks below filters and main content area for tablet: */
+        grid-column: 1 / -1; /* Make it span full width below other items */
+        margin-top: 25px;
     }
-    .main-sidebar h2 { font-size: 1.4rem; } /* For left filter h2 */
+    .main-sidebar > h2 { font-size: 1.4rem; } /* For left filter h2 */
     .right-sidebar .sidebar-section h2 { font-size: 1.3rem; } /* For sections in right sidebar */
     #route-table { font-size: 0.85rem; }
     #route-table th, #route-table td { padding: 9px 10px; }
@@ -172,6 +347,11 @@ footer p:last-child { margin-bottom: 0; }
     .right-sidebar {
         grid-column: 3 / 4; /* Becomes its own column */
         margin-top: 0; /* No margin needed as it's a grid item */
-        align-self: flex-start; /* Align to top */
+        align-self: flex-start; /* Align to top of its grid area */
     }
+}
+
+/* Very large screens - Optional further adjustments */
+@media (min-width: 1401px) {
+    .container { max-width: 1600px; } /* Allow a bit wider on very large screens */
 }
