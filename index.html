@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climb BlueSky - Routes & Challenges</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><span class="accent-text">CLIMB</span><span class="normal-text">BLUESKY</span></h1>
+            <p class="subtitle">Current Routes, Challenges & Fun Tools</p>
+        </div>
+    </header>
+
+    <main class="container page-layout">
+        <!-- Left Sidebar: Filters -->
+        <aside class="filters main-sidebar left-sidebar">
+            <h2>FILTER ROUTES</h2>
+            <div class="filter-group">
+                <label for="route-type">Type:</label>
+                <select id="route-type">
+                    <option value="all">All Types</option>
+                    <option value="boulder">Boulder</option>
+                    <option value="top-rope">Top Rope</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="grade-range">Grade (YDS / V-Scale):</label>
+                <select id="grade-range">
+                    <option value="all">All Grades</option>
+                    <optgroup label="Rope (YDS)">
+                        <option value="5.6-5.7">5.6 - 5.7</option>
+                        <option value="5.8-5.9">5.8 - 5.9</option>
+                        <option value="5.10-5.11">5.10 - 5.11</option>
+                        <option value="5.12+">5.12+</option>
+                    </optgroup>
+                    <optgroup label="Bouldering (V-Scale)">
+                        <option value="v0-v2">V0 - V2</option>
+                        <option value="v3-v5">V3 - V5</option>
+                        <option value="v6-v8">V6 - V8</option>
+                        <option value="v9+">V9+</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="wall-section">Wall/Area:</label>
+                <select id="wall-section">
+                    <option value="all">All Walls/Areas</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="hold-color">Hold Color:</label>
+                <select id="hold-color">
+                    <option value="all">All Colors</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <button id="reset-filters">Reset Filters</button>
+        </aside>
+
+        <!-- Main Content: Route List -->
+        <section id="route-list-container" class="main-content-area">
+            <div class="table-wrapper">
+                <table id="route-table">
+                    <thead>
+                        <tr>
+                            <th>Wall/Area</th>
+                            <th>Grade</th>
+                            <th>Color</th>
+                            <th>Type</th>
+                            <th>Set Date</th>
+                            <th class="status-header">Status</th>
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody id="route-list-body"></tbody>
+                </table>
+            </div>
+            <p id="no-routes-message" style="display:none; text-align:center; margin-top: 20px;">
+                No routes match your criteria.
+            </p>
+        </section>
+
+        <!-- Right Sidebar: Challenges & Tools -->
+        <aside id="right-utilities-sidebar" class="main-sidebar right-sidebar">
+            <div id="weekly-challenges-section" class="sidebar-section">
+                <h2>Weekly Route Challenges</h2>
+                <p>Test your mettle on these specially selected routes!</p>
+                <ul class="challenge-list" id="weekly-route-challenge-list">
+                    <li class="no-challenge-routes">No specific route challenges this week. Check back soon!</li>
+                </ul>
+            </div>
+
+            <div id="grade-translator-section" class="sidebar-section">
+                <h2>Grade Translator</h2>
+                <div class="translator-form">
+                    <div class="translator-group">
+                        <label for="grade-value-input">Enter Grade Value:</label>
+                        <input type="text" id="grade-value-input" placeholder="e.g., 5.10d, V5, 6b+">
+                    </div>
+                    <div class="translator-group">
+                        <label for="from-scale-select">From Scale:</label>
+                        <select id="from-scale-select">
+                            <option value="yds">YDS (USA Rope)</option>
+                            <option value="vscale">V-Scale (USA Boulder)</option>
+                            <option value="font">Fontainebleau (FR Boulder)</option>
+                        </select>
+                    </div>
+                    <button id="translate-grade-button">Translate</button>
+                </div>
+                <div id="grade-translation-result" class="translation-result">
+                    <p><strong>YDS:</strong> <span id="result-yds">-</span></p>
+                    <p><strong>V-Scale (Approx):</strong> <span id="result-vscale">-</span></p>
+                    <p><strong>Fontainebleau (Approx):</strong> <span id="result-font">-</span></p>
+                </div>
+            </div>
+            
+            <div id="random-name-generator-section" class="sidebar-section">
+                <h2>Route Name Idea Generator</h2>
+                <p>Need a name for that new send or set?</p>
+                <button id="generate-random-name-button">Generate Name!</button>
+                <p id="random-route-name-output" class="random-name-output">- Click the button -</p>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Climber Tip: Use the feedback button on routes to share your thoughts!</p>
+            <p>© 2024 Climb BlueSky. Climb On!</p>
+        </div>
+    </footer>
+
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h3>Route Feedback: <span id="modal-route-name"></span></h3>
+            <form id="feedback-form">
+                <input type="hidden" id="modal-route-id" name="routeId">
+                <div class="form-group">
+                    <label for="feedback-rating">Overall Rating (1-5 Stars):</label>
+                    <div class="star-rating">
+                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="feedback-rating-value" name="rating">
+                </div>
+                <div class="form-group">
+                    <label for="feedback-text">Comments:</label>
+                    <textarea id="feedback-text" name="comments" rows="4" placeholder="Fun, tricky, specific moves..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feedback-name">Your Name (Optional):</label>
+                    <input type="text" id="feedback-name" name="name" placeholder="Climber Joe">
+                </div>
+                <button type="submit" class="submit-feedback-button">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="routes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

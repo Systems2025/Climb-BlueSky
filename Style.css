@@ -1,0 +1,177 @@
+/* --- Global Resets & Base Styles --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Roboto', sans-serif; line-height: 1.6;
+    background-color: #222831; color: #EEEEEE;
+    display: flex; flex-direction: column; min-height: 100vh;
+    -webkit-tap-highlight-color: transparent; /* Better touch experience */
+}
+.container { width: 90%; max-width: 1400px; margin: 0 auto; }
+
+/* --- Theme Variables --- */
+:root {
+    --accent-color: #007bff; /* Blue for "BlueSky" */
+    --accent-color-darker: #0056b3;
+    --primary-bg: #222831;
+    --card-bg: #393E46;
+    --border-color: #4F555C;
+    --text-light: #EEEEEE;
+    --text-muted: #cccccc;
+    --row-hover-bg: #4a5058;
+    --new-badge-bg: #e63946; /* Red for contrast */
+    --header-bg: #1a1e25;
+    --star-inactive: #555c66;
+    --star-active: #ffd700; /* Gold for stars */
+}
+
+/* --- Header --- */
+header { background: var(--header-bg); padding: 1.5rem 0; text-align: center; border-bottom: 3px solid var(--accent-color); }
+header h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 0.3rem; }
+header h1 .accent-text { color: var(--accent-color); }
+header h1 .normal-text { color: var(--text-light); }
+header .subtitle { font-size: 1.1rem; font-weight: 300; color: var(--text-muted); }
+
+/* --- Main Page Layout --- */
+.page-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile first: single column */
+    gap: 20px;
+    padding-top: 20px; padding-bottom: 20px; flex-grow: 1;
+}
+.main-sidebar, .main-content-area {
+    background: var(--card-bg); padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+}
+.main-sidebar h2, .right-sidebar .sidebar-section h2 {
+    margin-top: 0; margin-bottom: 15px; font-size: 1.3rem;
+    color: var(--accent-color);
+    text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;
+}
+.left-sidebar, .right-sidebar { align-self: stretch; }
+
+/* Left Sidebar: Filters */
+.left-sidebar .filter-group { margin-bottom: 15px; }
+.left-sidebar .filter-group label { font-size: 0.85rem; display: block; margin-bottom: 5px; color: var(--text-muted); font-weight: 500;}
+.left-sidebar .filter-group select {
+    width: 100%; font-size: 0.85rem; padding: 8px; background-color: var(--primary-bg); color: var(--text-light);
+    border: 1px solid var(--border-color); border-radius: 5px; appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat; background-position: right 10px center; background-size: 1em;
+}
+.left-sidebar .filter-group select optgroup { font-weight: bold; background-color: var(--card-bg); color: var(--accent-color); }
+.left-sidebar .filter-group select option { background-color: var(--primary-bg); }
+.left-sidebar #reset-filters {
+    font-size: 0.9rem; padding: 8px 12px; background-color: var(--accent-color); color: white;
+    border: none; border-radius: 5px; cursor: pointer; width: 100%; text-transform: uppercase;
+    font-weight: 500; transition: background-color 0.3s ease;
+}
+.left-sidebar #reset-filters:hover { background-color: var(--accent-color-darker); }
+
+/* Main Content: Route List */
+.main-content-area { min-width: 0; }
+.table-wrapper {
+    width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-color); border-radius: 8px;
+    background: var(--card-bg);
+}
+#route-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+#route-table th, #route-table td { padding: 8px 6px; white-space: nowrap; text-align: left; border-bottom: 1px solid var(--border-color); }
+#route-table th { background-color: #2c3138; color: var(--accent-color); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 1; }
+#route-table tbody tr:nth-child(even) { background-color: #343a42; }
+#route-table tbody tr:hover { background-color: var(--row-hover-bg); }
+#route-table td { color: var(--text-muted); }
+#route-table td:first-child { color: var(--text-light); font-weight: 500; }
+.hold-color-swatch-table { display: inline-block; width: 14px; height: 14px; border: 1px solid #5f6770; border-radius: 3px; margin-right: 6px; vertical-align: middle; box-shadow: 0 0 1px rgba(0,0,0,0.2) inset; }
+#route-table th.status-header, #route-table td.status-cell { text-align: center; width: 80px; }
+.new-badge { background-color: var(--new-badge-bg); color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; display: inline-block; line-height: 1; }
+#no-routes-message { color: var(--text-muted); font-size: 1rem; }
+.feedback-button { padding: 4px 8px; font-size: 0.7rem; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+.feedback-button:hover { background-color: var(--accent-color-darker); }
+
+/* Right Sidebar: Utilities */
+.right-sidebar { display: flex; flex-direction: column; gap: 20px; }
+.right-sidebar .sidebar-section { /* padding: 0; /* Sections get padding from main-sidebar */ }
+.right-sidebar .sidebar-section h2 { text-align: left; font-size: 1.2rem; margin-bottom: 8px; padding-bottom: 6px; }
+.right-sidebar .sidebar-section p { font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted); }
+.right-sidebar .sidebar-section ul { list-style: none; padding-left: 0; }
+.right-sidebar .sidebar-section ul li { font-size: 0.8rem; padding: 5px 0; border-bottom: 1px dashed #4a5058; color: var(--text-muted); }
+.right-sidebar .sidebar-section ul li:last-child { border-bottom: none; }
+
+/* Weekly Challenges Specifics */
+#weekly-challenges-section .challenge-list li { display: flex; align-items: center; }
+#weekly-challenges-section .challenge-list li.no-challenge-routes { font-style: italic; justify-content: center; padding: 8px 0; }
+#weekly-challenges-section .challenge-list .challenge-route-item strong { color: var(--text-light); margin-left: 5px; }
+#weekly-challenges-section .challenge-icon { margin-right: 8px; font-size: 1em; color: var(--accent-color); }
+
+/* Grade Translator Specifics */
+#grade-translator-section .translator-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+#grade-translator-section .translator-group label { font-size: 0.8rem; display: block; margin-bottom: 3px; color: var(--text-muted); font-weight: 500;}
+#grade-translator-section .translator-group input[type="text"],
+#grade-translator-section .translator-group select { width:100%; font-size: 0.85rem; padding: 7px; background-color: var(--primary-bg); color: var(--text-light); border:1px solid var(--border-color); border-radius:5px;}
+#grade-translator-section #translate-grade-button { font-size: 0.85rem; padding: 7px 12px; background-color: var(--accent-color); color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+#grade-translator-section #translate-grade-button:hover { background-color: var(--accent-color-darker); }
+#grade-translator-section .translation-result { margin-top: 8px; padding: 8px; font-size: 0.85rem; background-color: #2c3138; border-radius: 5px; border: 1px solid var(--border-color); }
+#grade-translator-section .translation-result p { margin-bottom: 4px; font-size: 0.85rem; color: var(--text-light); }
+#grade-translator-section .translation-result p strong { color: var(--accent-color); min-width: 100px; display: inline-block; }
+
+/* Random Name Generator Specifics */
+#random-name-generator-section #generate-random-name-button { font-size: 0.85rem; padding: 7px 12px; margin-bottom: 8px; background-color: var(--accent-color); color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+#random-name-generator-section #generate-random-name-button:hover { background-color: var(--accent-color-darker); }
+.random-name-output { font-size: 1rem; padding: 8px; font-weight: 500; color: var(--text-light); text-align: center; background-color: #2c3138; border-radius: 4px; min-height: 2em; }
+
+/* --- Footer --- */
+footer { background: var(--header-bg); text-align: center; padding: 1.2rem 0; margin-top: auto; border-top: 1px solid var(--border-color); grid-column: 1 / -1; }
+footer p { color: #aaaaaa; font-size: 0.85rem; margin-bottom: 5px; }
+footer p:last-child { margin-bottom: 0; }
+
+/* --- Modal Styles --- */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 10px; }
+.modal-content { background-color: var(--card-bg); color: var(--text-light); margin: auto; padding: 20px; border: 1px solid var(--border-color); width: 100%; max-width: 500px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
+.close-button { color: var(--text-muted); float: right; font-size: 28px; font-weight: bold; line-height: 1; }
+.close-button:hover, .close-button:focus { color: var(--accent-color); text-decoration: none; cursor: pointer; }
+.modal-content h3 { color: var(--accent-color); margin-top: 0; margin-bottom: 15px; font-size: 1.2rem; }
+.modal .form-group { margin-bottom: 12px; }
+.modal .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: var(--text-muted); font-size: 0.9rem; }
+.modal .form-group input[type="text"], .modal .form-group textarea { width: 100%; padding: 8px; background-color: var(--primary-bg); color: var(--text-light); border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; }
+.modal .form-group textarea { resize: vertical; min-height: 60px; }
+.star-rating { display: flex; font-size: 1.6rem; cursor: pointer; }
+.star-rating .star { color: var(--star-inactive); margin-right: 5px; transition: color 0.2s; }
+.star-rating .star.selected, .star-rating .star:hover, .star-rating .star:hover ~ .star { color: var(--star-active); }
+.submit-feedback-button { background-color: var(--accent-color); color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.95rem; font-weight: 500; transition: background-color 0.3s ease; display: block; margin-top: 10px; width:100%; }
+.submit-feedback-button:hover { background-color: var(--accent-color-darker); }
+
+/* --- Responsive Adjustments --- */
+/* Tablet and larger - 2 column layout for main filters and content (which includes right sidebar stacked) */
+@media (min-width: 769px) {
+    .page-layout {
+        grid-template-columns: minmax(260px, 1fr) 3fr; /* Filters | Main Area (Route List + Right Sidebar items stacked) */
+        gap: 25px;
+    }
+    .main-sidebar, .main-content-area { padding: 20px; } /* Restore some padding */
+    .right-sidebar { /* This will be a child of main-content-area if we want to stack it within the 2nd column or a direct child of page-layout if we want it separate*/
+        /* For this layout, right-sidebar is a direct child of page-layout and will stack under filters on tablet*/
+         /* So, we need to adjust if we intended right-sidebar to be within the second column of a 2-col layout */
+         /* Let's assume we still want 3 columns for desktop, and stack right sidebar under main content for tablet */
+         /* The current CSS will make right-sidebar a third column that wraps if not enough space. */
+         /* To stack right sidebar UNDER main-content-area for tablet: */
+        grid-column: 2 / 3; /* Put it in the second column */
+        margin-top: 25px; /* Space it from the route table if it's now below it */
+    }
+    .main-sidebar h2 { font-size: 1.4rem; } /* For left filter h2 */
+    .right-sidebar .sidebar-section h2 { font-size: 1.3rem; } /* For sections in right sidebar */
+    #route-table { font-size: 0.85rem; }
+    #route-table th, #route-table td { padding: 9px 10px; }
+}
+
+/* Large screens (desktops) - Full 3-column layout */
+@media (min-width: 1025px) {
+    .page-layout {
+        grid-template-columns: minmax(280px, 1fr) 3fr minmax(300px, 1.2fr); /* Filters | Main Table | Right Sidebar */
+    }
+    .right-sidebar {
+        grid-column: 3 / 4; /* Becomes its own column */
+        margin-top: 0; /* No margin needed as it's a grid item */
+        align-self: flex-start; /* Align to top */
+    }
+}
